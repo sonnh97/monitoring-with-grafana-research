@@ -1,0 +1,1932 @@
+{
+  "__inputs": [
+    {
+      "name": "DS_FUAT-PTI-AMBARI",
+      "label": "fuat-pti-ambari",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "praj-ams-datasource",
+      "pluginName": "Ambari Metrics"
+    },
+    {
+      "name": "DS_LOKI",
+      "label": "Loki",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "loki",
+      "pluginName": "Loki"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "10.0.1"
+    },
+    {
+      "type": "panel",
+      "id": "logs",
+      "name": "Logs",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "loki",
+      "name": "Loki",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "piechart",
+      "name": "Pie chart",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "praj-ams-datasource",
+      "name": "Ambari Metrics",
+      "version": "1.2.1"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "panels": [],
+      "title": "HDFS",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "praj-ams-datasource",
+        "uid": "${DS_FUAT-PTI-AMBARI}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Used (GB)"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#ceccdb45",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Remaining (GB)"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 1,
+        "y": 1
+      },
+      "id": 2,
+      "options": {
+        "displayLabels": [
+          "name",
+          "value"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "values": [
+            "value"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.0.1",
+      "targets": [
+        {
+          "aggregator": "sum",
+          "alias": "Used (GB)",
+          "app": "namenode",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "hide": false,
+          "hosts": "",
+          "metric": "dfs.FSNamesystem.CapacityUsedGB",
+          "precision": "default",
+          "refId": "Used",
+          "transform": "none"
+        },
+        {
+          "aggregator": "sum",
+          "alias": "Remaining (GB)",
+          "app": "namenode",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "hide": false,
+          "hosts": "",
+          "metric": "dfs.FSNamesystem.CapacityRemainingGB",
+          "precision": "default",
+          "refId": "Remaining",
+          "transform": "none"
+        }
+      ],
+      "title": "Storage",
+      "transformations": [],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "praj-ams-datasource",
+        "uid": "${DS_FUAT-PTI-AMBARI}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 3,
+        "x": 5,
+        "y": 1
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.0.1",
+      "targets": [
+        {
+          "aggregator": "avg",
+          "app": "namenode",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "metric": "dfs.FSNamesystem.NumLiveDataNodes",
+          "precision": "default",
+          "refId": "NumLiveDataNodes",
+          "transform": "none"
+        }
+      ],
+      "title": "Live Data Nodes",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "praj-ams-datasource",
+        "uid": "${DS_FUAT-PTI-AMBARI}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              },
+              {
+                "color": "dark-orange",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 8,
+        "y": 1
+      },
+      "id": 5,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.0.1",
+      "targets": [
+        {
+          "aggregator": "avg",
+          "app": "namenode",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "metric": "dfs.FSNamesystem.NumDeadDataNodes",
+          "precision": "default",
+          "refId": "NumLiveDataNodes",
+          "transform": "none"
+        }
+      ],
+      "title": "Dead DN",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "praj-ams-datasource",
+        "uid": "${DS_FUAT-PTI-AMBARI}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              },
+              {
+                "color": "dark-orange",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 2,
+        "x": 11,
+        "y": 1
+      },
+      "id": 7,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.0.1",
+      "targets": [
+        {
+          "aggregator": "sum",
+          "app": "datanode",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "metric": "jvm.JvmMetrics.LogWarn",
+          "precision": "default",
+          "refId": "NumLiveDataNodes",
+          "transform": "none"
+        }
+      ],
+      "title": "Log Warnning",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "praj-ams-datasource",
+        "uid": "${DS_FUAT-PTI-AMBARI}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              },
+              {
+                "color": "dark-orange",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 13,
+        "y": 1
+      },
+      "id": 6,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.0.1",
+      "targets": [
+        {
+          "aggregator": "avg",
+          "app": "datanode",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "metric": "dfs.datanode.VolumeFailures",
+          "precision": "default",
+          "refId": "NumLiveDataNodes",
+          "transform": "none"
+        }
+      ],
+      "title": "Volume Failures",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "praj-ams-datasource",
+        "uid": "${DS_FUAT-PTI-AMBARI}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 16,
+        "y": 1
+      },
+      "id": 11,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "aggregator": "avg",
+          "app": "namenode",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "metric": "rpc.rpc.client.NumOpenConnections",
+          "precision": "default",
+          "refId": "A",
+          "transform": "none"
+        }
+      ],
+      "title": "RPC Client Connections",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "praj-ams-datasource",
+        "uid": "${DS_FUAT-PTI-AMBARI}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              },
+              {
+                "color": "dark-red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 2,
+        "x": 11,
+        "y": 3
+      },
+      "id": 8,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.0.1",
+      "targets": [
+        {
+          "aggregator": "sum",
+          "app": "datanode",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "metric": "jvm.JvmMetrics.LogError",
+          "precision": "default",
+          "refId": "NumLiveDataNodes",
+          "transform": "none"
+        }
+      ],
+      "title": "Log Error",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "praj-ams-datasource",
+        "uid": "${DS_FUAT-PTI-AMBARI}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              },
+              {
+                "color": "dark-orange",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 8,
+        "y": 4
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.0.1",
+      "targets": [
+        {
+          "aggregator": "avg",
+          "app": "namenode",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "metric": "dfs.FSNamesystem.NumDecommissioningDataNodes",
+          "precision": "default",
+          "refId": "NumLiveDataNodes",
+          "transform": "none"
+        }
+      ],
+      "title": "Decommissioning DN",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "praj-ams-datasource",
+        "uid": "${DS_FUAT-PTI-AMBARI}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 13,
+        "y": 4
+      },
+      "id": 10,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.0.1",
+      "targets": [
+        {
+          "aggregator": "avg",
+          "app": "namenode",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "metric": "dfs.FSNamesystem.Snapshots",
+          "precision": "default",
+          "refId": "NumLiveDataNodes",
+          "transform": "none"
+        }
+      ],
+      "title": "Snapshots",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "praj-ams-datasource",
+        "uid": "${DS_FUAT-PTI-AMBARI}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 2,
+        "x": 11,
+        "y": 5
+      },
+      "id": 9,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.0.1",
+      "targets": [
+        {
+          "aggregator": "sum",
+          "app": "datanode",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "metric": "jvm.JvmMetrics.LogFatal",
+          "precision": "default",
+          "refId": "NumLiveDataNodes",
+          "transform": "none"
+        }
+      ],
+      "title": "Log Fatal",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "id": 14,
+      "panels": [],
+      "title": "Yarn",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "praj-ams-datasource",
+        "uid": "${DS_FUAT-PTI-AMBARI}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 15,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.0.1",
+      "targets": [
+        {
+          "aggregator": "max",
+          "alias": "Max HeapMem",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "metric": "jvm.JvmMetrics.MemHeapMaxM",
+          "precision": "default",
+          "refId": "A",
+          "transform": "none"
+        },
+        {
+          "aggregator": "max",
+          "alias": "Used HeapMem",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "hide": false,
+          "metric": "jvm.JvmMetrics.MemHeapUsedM",
+          "precision": "default",
+          "refId": "B",
+          "transform": "none"
+        },
+        {
+          "aggregator": "max",
+          "alias": "Committed HeapMem",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "hide": false,
+          "metric": "jvm.JvmMetrics.MemHeapCommittedM",
+          "precision": "default",
+          "refId": "C",
+          "transform": "none"
+        }
+      ],
+      "title": "Heap Memory Usage",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "praj-ams-datasource",
+        "uid": "${DS_FUAT-PTI-AMBARI}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 16,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.0.1",
+      "targets": [
+        {
+          "aggregator": "max",
+          "alias": "Used NonHeapMem",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "metric": "jvm.JvmMetrics.MemNonHeapUsedM",
+          "precision": "default",
+          "refId": "A",
+          "transform": "none"
+        },
+        {
+          "aggregator": "max",
+          "alias": "Committed NonHeapMem",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "hide": false,
+          "metric": "jvm.JvmMetrics.MemNonHeapCommittedM",
+          "precision": "default",
+          "refId": "B",
+          "transform": "none"
+        }
+      ],
+      "title": "Non Heap Memory Usage",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "praj-ams-datasource",
+        "uid": "${DS_FUAT-PTI-AMBARI}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 5,
+        "x": 0,
+        "y": 16
+      },
+      "id": 19,
+      "options": {
+        "displayLabels": [],
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.0.1",
+      "targets": [
+        {
+          "aggregator": "max",
+          "alias": "ActiveNMs",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "metric": "yarn.ClusterMetrics.NumActiveNMs",
+          "precision": "default",
+          "refId": "A",
+          "transform": "none"
+        },
+        {
+          "aggregator": "max",
+          "alias": "Unhealthy",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "hide": false,
+          "metric": "yarn.ClusterMetrics.NumUnhealthyNMs",
+          "precision": "default",
+          "refId": "B",
+          "transform": "none"
+        },
+        {
+          "aggregator": "max",
+          "alias": "Decommissioned",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "hide": false,
+          "metric": "yarn.ClusterMetrics.NumDecommissionedNMs",
+          "precision": "default",
+          "refId": "C",
+          "transform": "none"
+        },
+        {
+          "aggregator": "max",
+          "alias": "Decommissioning",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "hide": false,
+          "metric": "yarn.ClusterMetrics.NumDecommissioningNMs",
+          "precision": "default",
+          "refId": "D",
+          "transform": "none"
+        }
+      ],
+      "title": "Node Managers",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "praj-ams-datasource",
+        "uid": "${DS_FUAT-PTI-AMBARI}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Killed"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Failed"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 5,
+        "y": 16
+      },
+      "id": 18,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "10.0.1",
+      "targets": [
+        {
+          "aggregator": "max",
+          "alias": "Completed",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "hide": false,
+          "metric": "yarn.QueueMetrics.Queue=root.AppsCompleted",
+          "precision": "default",
+          "refId": "B",
+          "transform": "none"
+        },
+        {
+          "aggregator": "max",
+          "alias": "Failed",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "metric": "yarn.QueueMetrics.Queue=root.AppsFailed",
+          "precision": "default",
+          "refId": "A",
+          "transform": "none"
+        },
+        {
+          "aggregator": "max",
+          "alias": "Killed",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "hide": false,
+          "metric": "yarn.QueueMetrics.Queue=root.AppsKilled",
+          "precision": "default",
+          "refId": "F",
+          "transform": "none"
+        },
+        {
+          "aggregator": "max",
+          "alias": "Pending",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "hide": false,
+          "metric": "yarn.QueueMetrics.Queue=root.AppsPending",
+          "precision": "default",
+          "refId": "C",
+          "transform": "none"
+        },
+        {
+          "aggregator": "max",
+          "alias": "Running",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "hide": false,
+          "metric": "yarn.QueueMetrics.Queue=root.AppsRunning",
+          "precision": "default",
+          "refId": "D",
+          "transform": "none"
+        },
+        {
+          "aggregator": "max",
+          "alias": "Submited",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "hide": false,
+          "metric": "yarn.QueueMetrics.Queue=root.AppsSubmitted",
+          "precision": "default",
+          "refId": "E",
+          "transform": "none"
+        }
+      ],
+      "title": "Application",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "praj-ams-datasource",
+        "uid": "${DS_FUAT-PTI-AMBARI}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Avaiable Vcore"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Used Vcore"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 5,
+        "x": 11,
+        "y": 16
+      },
+      "id": 20,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "values": [
+            "value"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.0.1",
+      "targets": [
+        {
+          "aggregator": "sum",
+          "alias": "Used Vcore",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "metric": "yarn.QueueMetrics.Queue=root.AllocatedVCores",
+          "precision": "default",
+          "refId": "A",
+          "transform": "none"
+        },
+        {
+          "aggregator": "sum",
+          "alias": "Avaiable Vcore",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "hide": false,
+          "metric": "yarn.QueueMetrics.Queue=root.AvailableVCores",
+          "precision": "default",
+          "refId": "B",
+          "transform": "none"
+        }
+      ],
+      "title": "Vcore",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "praj-ams-datasource",
+        "uid": "${DS_FUAT-PTI-AMBARI}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [],
+          "unit": "decmbytes"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Avaiable Memory"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Used Memory"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 5,
+        "x": 16,
+        "y": 16
+      },
+      "id": 21,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "values": [
+            "value"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.0.1",
+      "targets": [
+        {
+          "aggregator": "sum",
+          "alias": "Used Memory",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "metric": "yarn.QueueMetrics.Queue=root.AllocatedMB",
+          "precision": "default",
+          "refId": "A",
+          "transform": "none"
+        },
+        {
+          "aggregator": "sum",
+          "alias": "Avaiable Memory",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "hide": false,
+          "metric": "yarn.QueueMetrics.Queue=root.AvailableMB",
+          "precision": "default",
+          "refId": "B",
+          "transform": "none"
+        }
+      ],
+      "title": "Memory",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "praj-ams-datasource",
+        "uid": "${DS_FUAT-PTI-AMBARI}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 3,
+        "x": 21,
+        "y": 16
+      },
+      "id": 17,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "titleSize": 15
+        },
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "10.0.1",
+      "targets": [
+        {
+          "aggregator": "max",
+          "alias": "Warning",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "metric": "jvm.JvmMetrics.LogWarn",
+          "precision": "default",
+          "refId": "A",
+          "transform": "none"
+        },
+        {
+          "aggregator": "max",
+          "alias": "Error",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "hide": false,
+          "metric": "jvm.JvmMetrics.LogError",
+          "precision": "default",
+          "refId": "B",
+          "transform": "none"
+        },
+        {
+          "aggregator": "max",
+          "alias": "Fatal",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "hide": false,
+          "metric": "jvm.JvmMetrics.LogFatal",
+          "precision": "default",
+          "refId": "C",
+          "transform": "none"
+        }
+      ],
+      "title": "Logger",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "praj-ams-datasource",
+        "uid": "${DS_FUAT-PTI-AMBARI}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Fatal"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Error"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Info"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Warnning"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 11,
+        "x": 0,
+        "y": 22
+      },
+      "id": 23,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.0.1",
+      "targets": [
+        {
+          "aggregator": "max",
+          "alias": "Info",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "hide": false,
+          "metric": "jvm.JvmMetrics.LogInfo",
+          "precision": "default",
+          "refId": "B",
+          "transform": "none"
+        },
+        {
+          "aggregator": "max",
+          "alias": "Warnning",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "metric": "jvm.JvmMetrics.LogWarn",
+          "precision": "default",
+          "refId": "A",
+          "transform": "none"
+        },
+        {
+          "aggregator": "max",
+          "alias": "Error",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "hide": false,
+          "metric": "jvm.JvmMetrics.LogError",
+          "precision": "default",
+          "refId": "F",
+          "transform": "none"
+        },
+        {
+          "aggregator": "max",
+          "alias": "Fatal",
+          "app": "resourcemanager",
+          "datasource": {
+            "type": "praj-ams-datasource",
+            "uid": "${DS_FUAT-PTI-AMBARI}"
+          },
+          "hide": false,
+          "metric": "jvm.JvmMetrics.LogFatal",
+          "precision": "default",
+          "refId": "C",
+          "transform": "none"
+        }
+      ],
+      "title": "Logs",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "${DS_LOKI}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 13,
+        "x": 11,
+        "y": 22
+      },
+      "id": 22,
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": false,
+        "sortOrder": "Descending",
+        "wrapLogMessage": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${DS_LOKI}"
+          },
+          "editorMode": "builder",
+          "expr": "{job=\"yarn\", filename=\"/var/log/hadoop-yarn/yarn/nm-audit.log\"} |= ``",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Panel Title",
+      "type": "logs"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Hadoop dashboard",
+  "uid": "da7cb5de-f9c3-4036-a355-fe0b2adba0eb",
+  "version": 15,
+  "weekStart": ""
+}

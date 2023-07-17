@@ -1,0 +1,114 @@
+# Sample config for Grafana Agent
+# For a full configuration reference, see: https://grafana.com/docs/agent/latest/configuration/.
+server:
+  log_level: warn
+
+metrics:
+  wal_directory: '/var/lib/grafana-agent'
+  global:
+    scrape_interval: 1m
+    remote_write:
+    - url: http://10.210.39.204:9092/api/v1/write
+  configs:
+    - name: agent
+      scrape_configs:
+        - job_name: 'fuat-pti-statsd-exporter'
+          static_configs:
+            - targets: ['10.210.39.204:9102']
+              labels:
+                infra_name: 'fuat-pti' 
+                component_name: 'airflow'
+            - targets: ['10.210.39.204:9103']    
+              labels:
+                infra_name: 'fdev' 
+                component_name: 'airflow'	
+
+integrations:
+  agent:
+    enabled: true
+  node_exporter:
+    enabled: true
+    include_exporter_metrics: true
+
+
+
+
+logs:
+  configs:
+  - name: ${HOSTNAME}
+    positions:
+      filename: /grafana/positions.yaml
+
+    scrape_configs:
+    - job_name: yarn
+      static_configs:
+      - targets: 
+        - localhost
+        labels:
+          job: yarn
+          __path__: /var/log/hadoop-yarn/yarn/*.log
+
+    - job_name: hdfs
+      static_configs:
+      - targets: 
+        - localhost
+        labels:
+          job: hdfs
+          __path__: /var/log/hadoop/hdfs/*.log
+    - job_name: hive
+      static_configs:
+      - targets: 
+        - localhost
+        labels:
+          job: hive
+          __path__: /var/log/hive/*.log
+    - job_name: airflow
+      static_configs:
+      - targets: 
+        - localhost
+        labels:
+          job: airflow-dag
+          __path__: /root/airflow/logs/*vinhlt*/**/**/*.log
+      pipeline_stages:
+      - match:
+          selector: '{job="airflow-dag"}'
+          stages:
+          - regex:
+              source: filename
+              expression: "/root/airflow/logs/(?P<dag_name>(.*?))/(?P<step>(.*?))/(?P<run_name>(.*?))/(?P<attempt>[0-9]+).log"
+          - labels:
+              dag_name:
+              step: 
+              run_name:
+              attempt:
+
+    
+    clients:
+      - url: http://10.210.39.204:3100/loki/api/v1/push
+
+traces:
+  configs:
+  - name: ${HOSTNAME}
+    receivers:
+      otlp:
+        protocols:
+          grpc: # default 0.0.0.0:4317
+          http: # defualt 0.0.0.0:4318
+          
+    remote_write:
+      - endpoint: 10.210.39.204:55681
+        insecure: true  # only add this if TLS is not required
+    batch:
+      timeout: 5s
+      send_batch_size: 100
+    automatic_logging:
+      backend: logs_instance
+      logs_instance_name: ${HOSTNAME}
+      roots: true
+      process_attributes:
+        - service.name
+      span_attributes:
+        - span.kind
+      labels:
+        - service.name
+        - span.kind
