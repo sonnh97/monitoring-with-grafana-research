@@ -21,8 +21,8 @@ trace.get_tracer_provider().add_span_processor(span_processor)
 
 def eee(ctx):
     with tracer.start_as_current_span("eee", context=ctx) as span:
-        trace.get_current_span().add_event(ctx)
         trace.get_current_span().add_event('conchimcugay')
+        trace.get_current_span().add_event('gay ooo')
 
 
 if __name__ == '__main__':

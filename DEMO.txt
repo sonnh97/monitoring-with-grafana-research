@@ -1,0 +1,26 @@
+1. Airflow metrics
+statsd_exporter: http://10.210.39.204:9102/metrics
+prometheus: http://fuat-pti-hadoop-02:9092/graph?g0.expr=af_agg_dag_task_duration_count&g0.tab=1&g0.stacked=0&g0.show_exemplars=0&g0.range_input=1h
+
+2. Node exporter metrics
+http://fuat-pti-hadoop-02:9092/graph?g0.expr=node_memory_MemFree_bytes&g0.tab=0&g0.stacked=0&g0.show_exemplars=0&g0.range_input=1h&g0.end_input=2023-07-18%2003%3A29%3A45&g0.moment_input=2023-07-18%2003%3A29%3A45
+
+3. Pushgatrway
+
+4. Ambari metrics
+http://10.210.39.203:8080/#/main/services/AMBARI_METRICS/summary
+http://fuat-pti-hadoop-02:3000/explore?left=%7B%22datasource%22:%22d6c16dec-060d-490b-b257-3e554981ad3c%22,%22queries%22:%5B%7B%22aggregator%22:%22avg%22,%22app%22:%22namenode%22,%22datasource%22:%7B%22type%22:%22praj-ams-datasource%22,%22uid%22:%22d6c16dec-060d-490b-b257-3e554981ad3c%22%7D,%22metric%22:%22rpc.rpc.client.NumOpenConnections%22,%22precision%22:%22default%22,%22refId%22:%22A%22,%22transform%22:%22none%22%7D%5D,%22range%22:%7B%22from%22:%22now-15m%22,%22to%22:%22now%22%7D%7D&orgId=1
+
+5. Loki
+http://fuat-pti-hadoop-02:3000/explore?left=%7B%22datasource%22:%22f296e92d-3b4c-4224-91a5-f421f2644532%22,%22queries%22:%5B%7B%22refId%22:%22A%22,%22expr%22:%22%7Bjob%3D%5C%22airflow-dag%5C%22%7D%20%7C%3D%20%60%60%22,%22queryType%22:%22range%22,%22datasource%22:%7B%22type%22:%22loki%22,%22uid%22:%22f296e92d-3b4c-4224-91a5-f421f2644532%22%7D,%22editorMode%22:%22builder%22%7D%5D,%22range%22:%7B%22from%22:%22now-24h%22,%22to%22:%22now%22%7D%7D&orgId=1
+
+
+6. Tempo
+- docker start fake-tracing
+- custom code
+7. pyroscope
+
+8. Dashboard
+
+9. Alert
+https://app.slack.com/client/T01KS1GNFTP/C05H0MHEFBK
